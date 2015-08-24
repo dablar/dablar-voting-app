@@ -1,22 +1,78 @@
 <navbar></navbar>
 
 <header class="hero-unit" id="banner">
-  <div class="container">
-    <h1>'Allo, 'Allo!</h1>
-    <p class="lead">Kick-start your next web app with Angular Fullstack</p>
-    <img src="assets/images/yeoman.png" alt="I'm Yeoman">
+  <div class="container" ng-hide="isLoggedIn()">
+    <h1>DaBLar Voting App</h1>
+    <p class="lead">Using yeoman Angular Fullstack...</p>
+    <img src="assets/images/panda.png" alt="I'm Vote Panda">
+  </div>
+  <div class="container" ng-show="isLoggedIn()">
+    <h1>Dashboard</h1>
+    <p class="lead">What would you like to do today?</p>
+    <button class="btn btn-lg btn-success" ng-click="loadNewPoll()">New Poll</button>
+    <button class="btn btn-lg btn-primary" ng-click="loadAllPolls()">My Polls</button>
   </div>
 </header>
 
-<div class="container">
+<div class="container" ng-hide="isLoggedIn()">
   <div class="row">
     <div class="col-lg-12">
-      <h1 class="page-header">Features:</h1>
+      <h1 class="page-header">My polls</h1>
       <ul class="nav nav-tabs nav-stacked col-md-4 col-lg-4 col-sm-6" ng-repeat="thing in awesomeThings">
         <li><a href="#" tooltip="{{thing.info}}">{{thing.name}}</a></li>
       </ul>
     </div>
   </div>
 </div>
+
+<!-- LOAD ALL POLLS -->
+<div class="container" ng-show="isLoggedIn()" >
+  <div class="row">
+    <div class="col-lg-offset-3 col-lg-6">
+      <h2>Polls</h2>
+      <ul class="list-group"><!-- ngRepeat: poll in polls -->
+        <li class="list-group-item" id="{{poll._id}}}" ng-repeat="poll in polls" ng-click="">{{poll.question}}
+          <button class="btn" ng-click="deletePoll(poll._id); $event.stopPropagation()">Delete</button>
+        </li><!-- end ngRepeat: poll in polls -->
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- LOAD ONE POLL -->
+<div class="container" ng-show="isLoggedIn() && poll" >
+  <div class="row">
+    <div class="col-lg-offset-3 col-lg-6">
+      <h2>{{poll.question}}</h2>
+      <ul class="list-group"><!-- ngRepeat: poll in polls -->
+        <li class="list-group-item" id="{{poll._id}}}" ng-repeat="option in poll.pollOptions" ng-click="">
+          {{option.optionText}}
+        </li><!-- end ngRepeat: poll in polls -->
+      </ul>
+    </div>
+  </div>
+</div>
+
+
+
+<!-- CREATE POLL -->
+<div class="container" ng-show="isLoggedIn()" >
+  <div class="row">
+    <div class="col-lg-offset-3 col-lg-6">
+      <p class="bg-info" ng-show="pollCreatedMsg">There is your new poll link: <a href="{{pollCreatedMsg}}">{{pollCreatedMsg}}</a></p>
+      <h2>New Poll</h2>
+
+      <form class="poll-form" ng-submit="addPoll()" name="newPoll" novalidate>
+        <label>Question:</label>
+        <input class="form-control" type="text" ng-model="newPoll.question" required/>
+        <h2>Options</h2>
+        <input class="form-control" type="text" ng-model="newPoll.pollOptions[$index].optionText" ng-repeat="n in optionPlaceholders track by $index" placeholder="{{n}}" required/>
+        <button type="button" ng-click="addOption()" class="btn btn-default">More Options</button>
+        <input class="btn btn-primary" type="submit" ng-disabled="newPoll.$invalid" value="Post">
+      </form>
+    </div>
+  </div>
+</div>
+
 
 <footer></footer>
