@@ -40,7 +40,8 @@ function handleEntityNotFound(res) {
 
 function saveUpdates(updates) {
   return function(entity) {
-    var updated = _.merge(entity, updates);
+    //var updated = _.merge(entity, updates); change _merge - _extend
+    var updated = _.extend(entity, updates);
     return updated.saveAsync()
       .spread(function(updated) {
         return updated;

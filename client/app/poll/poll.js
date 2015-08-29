@@ -3,9 +3,8 @@
 angular.module('dablarVotingAppApp')
   .config(function ($routeProvider) {
     $routeProvider
-      .when('/', {
-        templateUrl: 'app/main/main.html',
-        controller: 'MainCtrl',
-        authenticate: false
+      .when('/:pollId', {
+        templateUrl: 'app/poll/poll.html',
+        controller: 'PollCtrl'
       });
   });

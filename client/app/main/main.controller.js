@@ -1,31 +1,40 @@
 'use strict';
 
 angular.module('dablarVotingAppApp')
-.controller('MainCtrl', function($scope, $http, $routeParams) {
+.controller('MainCtrl', function ($scope, $http, Auth, $routeParams) {
   $scope.awesomeThings = [];
   $scope.polls = [];
   $scope.optionPlaceholders = ['Option 1', 'Option 2'];
-
-
+  $scope.getCurrentUser = Auth.getCurrentUser;
+  $scope.isLoggedIn = Auth.isLoggedIn;
+  $scope.page = "myPolls";
   
-
+  
   $http.get('/api/things').success(function(awesomeThings) {
     $scope.awesomeThings = awesomeThings;
   });
 
-
-
-  $http.get('/api/polls').success(function(polls) {
-    $scope.polls = polls;
-  });
-
-  if($routeParams && $routeParams.pollId){
-    $http.get('/api/polls/' + $routeParams.pollId).success(function(poll) {
-      $scope.poll = poll;
-      console.log(poll);
+  
+  if($scope.isLoggedIn()) {
+    $http.get('/api/polls').success(function(polls) {
+      $scope.polls = polls;
     });
   }
 
+
+
+
+  $scope.isPage = function(page) {
+    if ($scope.page === page)
+      return true;
+
+    return false;
+  };
+  
+  $scope.setPage = function(page) {
+    $scope.page = page;
+    $scope.pollCreatedMsg = '';
+  };
 
   $scope.addPoll = function() {
 
@@ -34,7 +43,7 @@ angular.module('dablarVotingAppApp')
     }
     $scope.polls.push($scope.newPoll);
     $scope.newPoll.author = $scope.getCurrentUser()._id;
-
+    
       // from Object to Array,,, to fit with the schema model.
       $scope.newPoll.pollOptions=  
       Object.keys($scope.newPoll.pollOptions).map(function(k) 
@@ -44,7 +53,6 @@ angular.module('dablarVotingAppApp')
       $http.post('/api/polls', $scope.newPoll).success(function(thatThingWeJustAdded) {
         $scope.polls.pop(); // let's lose that id-lacking newThing 
         $scope.polls.push(thatThingWeJustAdded); // and add the id-having newThing!
-
         $scope.newPoll.question = '';
         $scope.newPoll.pollOptions = {};
         $scope.optionPlaceholders = ['Option 1', 'Option 2'];
@@ -68,16 +76,4 @@ angular.module('dablarVotingAppApp')
         //console.log('then is called');
       });
     }
-
-    $scope.addThing = function() {
-      if ($scope.newThing === '') {
-        return;
-      }
-      $http.post('/api/things', { name: $scope.newThing });
-      $scope.newThing = '';
-    };
-
-    $scope.deleteThing = function(thing) {
-      $http.delete('/api/things/' + thing._id);
-    };
   });

@@ -6,11 +6,12 @@
     <p class="lead">Using yeoman Angular Fullstack...</p>
     <img src="assets/images/panda.png" alt="I'm Vote Panda">
   </div>
+  
   <div class="container" ng-show="isLoggedIn()">
     <h1>Dashboard</h1>
     <p class="lead">What would you like to do today?</p>
-    <button class="btn btn-lg btn-success" ng-click="loadNewPoll()">New Poll</button>
-    <button class="btn btn-lg btn-primary" ng-click="loadAllPolls()">My Polls</button>
+    <button class="btn btn-lg btn-success" ng-click="setPage('createPoll')">New Poll</button>
+    <button class="btn btn-lg btn-primary" ng-click="setPage('myPolls')">My Polls</button>
   </div>
 </header>
 
@@ -25,28 +26,15 @@
   </div>
 </div>
 
-<!-- LOAD ALL POLLS -->
-<div class="container" ng-show="isLoggedIn()" >
+<!-- LOAD ALL MY POLLS -->
+<div class="container" ng-show="isLoggedIn()&& isPage('myPolls')" >
   <div class="row">
     <div class="col-lg-offset-3 col-lg-6">
       <h2>Polls</h2>
       <ul class="list-group"><!-- ngRepeat: poll in polls -->
         <li class="list-group-item" id="{{poll._id}}}" ng-repeat="poll in polls" ng-click="">{{poll.question}}
-          <button class="btn" ng-click="deletePoll(poll._id); $event.stopPropagation()">Delete</button>
-        </li><!-- end ngRepeat: poll in polls -->
-      </ul>
-    </div>
-  </div>
-</div>
-
-<!-- LOAD ONE POLL -->
-<div class="container" ng-show="isLoggedIn() && poll" >
-  <div class="row">
-    <div class="col-lg-offset-3 col-lg-6">
-      <h2>{{poll.question}}</h2>
-      <ul class="list-group"><!-- ngRepeat: poll in polls -->
-        <li class="list-group-item" id="{{poll._id}}}" ng-repeat="option in poll.pollOptions" ng-click="">
-          {{option.optionText}}
+          <button class="btn" ng-click="deletePoll(poll._id)">Delete</button>
+          <a href="/{{poll._id}}">See</a>
         </li><!-- end ngRepeat: poll in polls -->
       </ul>
     </div>
@@ -56,7 +44,7 @@
 
 
 <!-- CREATE POLL -->
-<div class="container" ng-show="isLoggedIn()" >
+<div class="container" ng-show="isLoggedIn() && isPage('createPoll')" >
   <div class="row">
     <div class="col-lg-offset-3 col-lg-6">
       <p class="bg-info" ng-show="pollCreatedMsg">There is your new poll link: <a href="{{pollCreatedMsg}}">{{pollCreatedMsg}}</a></p>

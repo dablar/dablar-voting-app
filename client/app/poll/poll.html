@@ -1,0 +1,49 @@
+<navbar></navbar>
+
+<header class="hero-unit" id="banner">
+  <div class="container"dd>
+    <h1>DaBLar Voting App</h1>
+    <p class="lead">Using yeoman Angular Fullstack...</p>
+    <img src="assets/images/panda.png" alt="I'm Vote Panda">
+  </div>
+</header>
+
+<!-- LOAD ONE POLL AND VOTE IT -->
+<div class="container" >
+  <div class="row">
+    <div class="col-lg-offset-3 col-lg-6">
+      <h2>{{poll.question}}</h2>
+      <ul class="list-group" ng-hide="isLoggedIn()"><!-- ngRepeat: option in pollsOptions -->
+        <li class="list-group-item" id="{{ poll._id }}" ng-repeat="option in poll.pollOptions">
+          {{option.optionText}} - votes: {{option.votes}}
+        </li><!-- end ngRepeat: option in pollsOptions -->
+      </ul>
+      <form class="poll-form" ng-show="isLoggedIn()" ng-submit="vote()" name="voteForm" novalidate>
+        <ul class="list-group"><!-- ngRepeat: option in pollsOptions -->
+          <li class="list-group-item" id="{{ poll._id }}" ng-repeat="option in poll.pollOptions" ng-click="">
+            <label>
+              <input type="radio" value="{{ option._id }}" ng-model="voteForm.voteOption" required>
+              {{option.optionText}} - votes: {{option.votes}}
+            </label>
+          </li><!-- end ngRepeat: option in pollsOptions -->
+        </ul>
+        <input class="btn btn-primary" type="submit" ng-disabled="voteForm.$invalid" value="Vote!">
+        <pre> {{ voteForm | json }}</pre>
+        <pre> {{ poll | json }}</pre>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div class="container" >
+  <div class="row">
+    <div class="col-lg-offset-3 col-lg-6">
+
+    
+
+    </div>
+  </div>
+</div>
+
+
+<footer></footer>
