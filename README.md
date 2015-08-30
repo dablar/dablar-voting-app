@@ -1,6 +1,13 @@
 # dablar-voting-app
 
+**Objective:** Build a full stack JavaScript app that successfully reverse-engineers this: http://votingapp.herokuapp.com/ and deploy it to Heroku.
+
+
 This project was generated with the [Angular Full-Stack Generator](https://github.com/DaftMonk/generator-angular-fullstack) version 3.0.0-rc3.
+
+[Freecodecamp build a voting app challenge](http://www.freecodecamp.com/challenges/basejumps-build-a-voting-app)
+
+[Heroku app running](http://dablar-voting-app.herokuapp.com/)
 
 ## Getting Started
 

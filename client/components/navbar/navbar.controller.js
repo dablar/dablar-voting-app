@@ -3,7 +3,7 @@
 angular.module('dablarVotingAppApp')
   .controller('NavbarCtrl', function ($scope, $location, Auth) {
     $scope.menu = [{
-      'title': 'Home',
+      'title': 'Dashboard',
       'link': '/'
     }];
 

@@ -5,7 +5,8 @@ angular.module('dablarVotingAppApp', [
   'ngResource',
   'ngSanitize',
   'ngRoute',
-  'ui.bootstrap'
+  'ui.bootstrap',
+  'googlechart'
 ])
   .config(function($routeProvider, $locationProvider, $httpProvider) {
     $routeProvider

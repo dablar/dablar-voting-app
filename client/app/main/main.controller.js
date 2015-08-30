@@ -1,13 +1,13 @@
 'use strict';
 
 angular.module('dablarVotingAppApp')
-.controller('MainCtrl', function ($scope, $http, Auth, $routeParams) {
+.controller('MainCtrl', function ($scope, $http, Auth) {
   $scope.awesomeThings = [];
   $scope.polls = [];
   $scope.optionPlaceholders = ['Option 1', 'Option 2'];
   $scope.getCurrentUser = Auth.getCurrentUser;
   $scope.isLoggedIn = Auth.isLoggedIn;
-  $scope.page = "myPolls";
+  $scope.page = 'myPolls';
   
   
   $http.get('/api/things').success(function(awesomeThings) {
@@ -22,11 +22,10 @@ angular.module('dablarVotingAppApp')
   }
 
 
-
-
   $scope.isPage = function(page) {
-    if ($scope.page === page)
+    if ($scope.page === page) {
       return true;
+    }
 
     return false;
   };
@@ -47,7 +46,7 @@ angular.module('dablarVotingAppApp')
       // from Object to Array,,, to fit with the schema model.
       $scope.newPoll.pollOptions=  
       Object.keys($scope.newPoll.pollOptions).map(function(k) 
-        { return $scope.newPoll.pollOptions[k] });
+        { return $scope.newPoll.pollOptions[k]; });
 
 
       $http.post('/api/polls', $scope.newPoll).success(function(thatThingWeJustAdded) {
@@ -64,16 +63,16 @@ angular.module('dablarVotingAppApp')
 
     $scope.addOption = function() {
       $scope.optionPlaceholders.push('New option');
-    }
+    };
 
     $scope.deletePoll = function(idPoll) {
       console.log('borrando poll ' + idPoll);
       $http.delete('/api/polls/' + idPoll).success(function() {
         $scope.polls.splice($scope.polls.indexOf(idPoll),1);
       }).error(function(error) {
-        console.log('error deleting poll: ' + idPoll);
+        console.log('error deleting poll: ' + error);
       }).then(function() {
         //console.log('then is called');
       });
-    }
+    };
   });

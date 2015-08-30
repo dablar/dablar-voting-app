@@ -9,7 +9,7 @@
 </header>
 
 <!-- LOAD ONE POLL AND VOTE IT -->
-<div class="container" >
+<div class="container" ng-show="isLoggedIn()">
   <div class="row">
     <div class="col-lg-offset-3 col-lg-6">
       <h2>{{poll.question}}</h2>
@@ -18,7 +18,7 @@
           {{option.optionText}} - votes: {{option.votes}}
         </li><!-- end ngRepeat: option in pollsOptions -->
       </ul>
-      <form class="poll-form" ng-show="isLoggedIn()" ng-submit="vote()" name="voteForm" novalidate>
+      <form class="poll-form"  ng-submit="vote()" name="voteForm" novalidate>
         <ul class="list-group"><!-- ngRepeat: option in pollsOptions -->
           <li class="list-group-item" id="{{ poll._id }}" ng-repeat="option in poll.pollOptions" ng-click="">
             <label>
@@ -28,19 +28,18 @@
           </li><!-- end ngRepeat: option in pollsOptions -->
         </ul>
         <input class="btn btn-primary" type="submit" ng-disabled="voteForm.$invalid" value="Vote!">
-        <pre> {{ voteForm | json }}</pre>
-        <pre> {{ poll | json }}</pre>
       </form>
     </div>
   </div>
 </div>
 
-<div class="container" >
+<div class="container">
   <div class="row">
     <div class="col-lg-offset-3 col-lg-6">
-
-    
-
+      
+      <div google-chart ng-show="chartObject && poll._id" chart="chartObject" style="height:300px; width:100%;"></div>
+      <div ng-hide="poll._id">Poll not found</div>
+      
     </div>
   </div>
 </div>
